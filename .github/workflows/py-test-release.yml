@@ -111,7 +111,7 @@ jobs:
         run: |
           docker build . --build-arg PYTHON_VERSION=${{ inputs.python-version }} -t ghcr.io/${{ github.repository }}:${{ needs.release-check.outputs.release }}
       - name: Publish to PyPI
-        if: secrets.pypi-token != ''
+        if: ${{ secrets.pypi-token }} != ''
         env:
           POETRY_PYPI_TOKEN_PYPI: ${{ secrets.pypi-token }}
         run: |
