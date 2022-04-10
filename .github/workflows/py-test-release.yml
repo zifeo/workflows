@@ -16,6 +16,10 @@ on:
         required: false
         type: boolean
         default: false
+      publish-pypi:
+        required: false
+        type: boolean
+        default: false
     secrets:
       pypi-token:
         required: false
@@ -111,7 +115,7 @@ jobs:
         run: |
           docker build . --build-arg PYTHON_VERSION=${{ inputs.python-version }} -t ghcr.io/${{ github.repository }}:${{ needs.release-check.outputs.release }}
       - name: Publish to PyPI
-        if: ${{ secrets.pypi-token }} != ''
+        if: inputs.publish-pypi
         env:
           POETRY_PYPI_TOKEN_PYPI: ${{ secrets.pypi-token }}
         run: |
