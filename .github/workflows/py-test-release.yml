@@ -87,7 +87,7 @@ jobs:
   release:
     needs: release-check
     runs-on: ubuntu-latest
-    if: needs.release-check.outputs.release != '' && (secrets.pypi-token != '' || inputs.publish-docker)
+    if: ${{ needs.release-check.outputs.release != '' && (secrets.pypi-token != '' || inputs.publish-docker) }}
 
     steps:
       - name: Check out
