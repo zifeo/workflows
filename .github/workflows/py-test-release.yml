@@ -12,6 +12,10 @@ on:
       python-version:
         required: true
         type: string
+      docker-platform:
+        required: false
+        type: string
+        default: linux/amd64
       publish-docker:
         required: false
         type: boolean
@@ -64,7 +68,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ inputs.docker-platform }}
           push: false
           tags: test
           build-args: |
@@ -127,7 +131,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ inputs.docker-platform }}
           push: false
           tags: ghcr.io/${{ github.repository }}:${{ needs.release-check.outputs.release }}
           build-args: |
