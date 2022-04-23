@@ -9,9 +9,17 @@ on:
       poetry-version:
         required: true
         type: string
+      poetry-install-extra-args:
+        required: false
+        type: string
+        default: ""
       python-version:
         required: true
         type: string
+      docker-compose:
+        required: false
+        type: boolean
+        default: false
       docker-platform:
         required: false
         type: string
@@ -52,16 +60,17 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          poetry install --extras all   
+          poetry install ${{ inputs.poetry-install-extra-args }}
       - name: Run pre-commit
         uses: pre-commit/action@v2.0.0
       - name: Start containers
+        if: inputs.docker-compose
         run: docker-compose up -d
       - name: Run tests
         run: |
           poetry run pytest -s tests
       - name: Stop containers
-        if: always()
+        if: always() && inputs.docker-compose
         run: |
           docker-compose down
       - name: Build docker image
@@ -142,7 +151,7 @@ jobs:
           POETRY_PYPI_TOKEN_PYPI: ${{ secrets.pypi-token }}
         run: |
           python -m pip install --upgrade pip
-          poetry install --extras all
+          poetry install ${{ inputs.poetry-install-extra-args }}
           poetry build
           poetry publish
       - name: Push to Github Packages
