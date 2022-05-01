@@ -28,6 +28,8 @@ jobs:
 
 ## Pytest and release
 
+Run Python tests (with Pytest), optionally test the Docker build with companion containers, and publish the package to Pypi if the version does not yet exist (additionally publish Docker image). 
+
 ```yaml
 name: Test and release
 
