@@ -163,9 +163,15 @@ jobs:
         if: inputs.publish-docker
         run: |
           docker push ghcr.io/${{ github.repository }}:${{ needs.release-check.outputs.release }}
-      - uses: actions-ecosystem/action-push-tag@v1
-        with:
-          tag: v${{ needs.release-check.outputs.release }}
+      - name: Tag
+        # https://github.com/actions-ecosystem/action-push-tag/issues/10#issuecomment-1098206676
+        run: |
+          tag=v${{ needs.release-check.outputs.release }}
+          message=''
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git tag -a "${tag}" -m "${message}"
+          git push origin "${tag}"
       - name: GitHub Release
         uses: softprops/action-gh-release@v1
         with:
