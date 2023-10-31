@@ -32,5 +32,5 @@ jobs:
         with:
           branch: release-${{ steps.commitizen.outputs.version }}
           delete-branch: true
-          title: Release ${{ steps.commitizen.outputs.version }}
+          title: "bump: version ${{ steps.commitizen.outputs.version }}"
           body: ""
