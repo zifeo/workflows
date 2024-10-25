@@ -70,7 +70,7 @@ jobs:
           python -m pip install --upgrade pip
           poetry install ${{ inputs.poetry-install-extra-args }}
       - name: Run pre-commit
-        uses: pre-commit/action@v2.0.0
+        uses: pre-commit/action@v3.0.1
       - name: Start containers
         if: inputs.compose != ''
         run: docker compose -f ${{ inputs.compose }} up -d
