@@ -73,14 +73,14 @@ jobs:
         uses: pre-commit/action@v2.0.0
       - name: Start containers
         if: inputs.compose != ''
-        run: docker-compose -f ${{ inputs.compose }} up -d
+        run: docker compose -f ${{ inputs.compose }} up -d
       - name: Run tests
         run: |
           poetry run pytest -s tests ${{ inputs.pytest-args }}
       - name: Stop containers
         if: always() && inputs.compose != ''
         run: |
-          docker-compose -f ${{ inputs.compose }} down
+          docker compose -f ${{ inputs.compose }} down
       - name: Build docker image
         if: inputs.docker-build
         uses: docker/build-push-action@v2
