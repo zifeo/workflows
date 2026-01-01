@@ -28,7 +28,7 @@ jobs:
           push: "false"
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           branch: release-${{ steps.commitizen.outputs.version }}
           delete-branch: true
